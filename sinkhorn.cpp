@@ -6,22 +6,24 @@ torch::Tensor base(const torch::Tensor &h_s,
                    double reg,
                    int numIter) {
 
-    int N, num_s;
+    int N, num_s, num_t;
     N = C.size(0);
     num_s = C.size(1);
+    num_t = C.size(1);
     ::dev = C.device();
 
+    torch::Tensor K = (C / -reg).exp();
 
-    torch::Tensor K = (-C / reg).exp();
     torch::Tensor u = torch::ones({N, num_s}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
+    torch::Tensor v = torch::ones({N, num_t}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
+
 
     for (int iter = 0; iter < numIter; ++iter) {
-        u = h_s / ((K *
-                    (h_t / ((K * u.unsqueeze(2)).sum(1)))
-                            .unsqueeze(1)).sum(2));
+        v = h_t / ((K * u.unsqueeze(2)).sum(1));
+        u = h_s / ((K * v.unsqueeze(1)).sum(2));
     }
 
-    return torch::einsum("ni,nij,nj->nij", {u, K, h_t / ((K * u.unsqueeze(2)).sum(1))});
+    return torch::einsum("ni,nij,nj->nij", {u, K, v});
 }
 
 torch::Tensor unbalanced(const torch::Tensor &h_s,
@@ -88,8 +90,8 @@ torch::Tensor stable(const torch::Tensor &h_s,
     ::dev = C.device();
 
     torch::Tensor K;
-    torch::Tensor u = torch::ones({N, num_s}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
-    torch::Tensor v = torch::ones({N, num_t}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
+    torch::Tensor u = torch::ones({N, num_s}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false)) / num_s;
+    torch::Tensor v = torch::ones({N, num_t}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false)) / num_t;
     torch::Tensor alpha = torch::zeros({N, num_s}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
     torch::Tensor beta = torch::zeros({N, num_t}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
     _update_K(alpha, beta, C, reg, K);
@@ -98,15 +100,16 @@ torch::Tensor stable(const torch::Tensor &h_s,
         u = h_s / ((K * v.unsqueeze(1)).sum(2));
         v = h_t / ((K * u.unsqueeze(2)).sum(1));
 
-        alpha += reg * std::get<0>(u.log().max(1, true));
-        beta += reg * std::get<0>(v.log().max(1, true));
+        alpha += reg * std::get<0>(u.log().max(0, true));
+        beta += reg * std::get<0>(v.log().max(0, true));
 
-        u.fill_(1.);
-        v.fill_(1.);
+        u.fill_(1. / num_s);
+        v.fill_(1. / num_t);
 
         _update_K(alpha, beta, C, reg, K);
     }
-
+    u = h_s / ((K * v.unsqueeze(1)).sum(2));
+    v = h_t / ((K * u.unsqueeze(2)).sum(1));
     return _get_P(alpha, beta, u, v, C, reg);
 }
 

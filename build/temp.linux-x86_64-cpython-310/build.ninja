@@ -12,7 +12,7 @@ rule compile
 
 
 
-build /volume1/scratch/hdeplaen/Object/object-bures/src/libtorch/build/temp.linux-x86_64-cpython-310/sinkhorn.o: compile /volume1/scratch/hdeplaen/Object/object-bures/src/libtorch/sinkhorn.cpp
+build /volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o: compile /volume1/scratch/hdeplaen/libtorch/sinkhorn/sinkhorn.cpp
 
 
 
