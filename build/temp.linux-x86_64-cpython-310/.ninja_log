@@ -1,3 +1,15 @@
 # ninja log v5
 0	14476	1663685910820262146	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
 19	14836	1663686814433302590	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+19	14498	1663688848120963447	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14465	1663688959625678833	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	15129	1663690419056338875	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	15055	1663690530555082500	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14975	1663690599279541945	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+19	15007	1663690747014529683	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14750	1663690794651853943	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14804	1663691001488256050	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14651	1663691099777973118	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14510	1663691237500905792	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14554	1663691282792207913	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb
+18	14578	1663691332403540416	/volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-cpython-310/sinkhorn.o	f7e90c20823e6cfb

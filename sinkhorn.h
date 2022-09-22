@@ -19,6 +19,13 @@ torch::Tensor base(
         double reg,
         int numIter);
 
+torch::Tensor base_single(
+        const torch::Tensor &h_s,
+        const torch::Tensor &h_t,
+        const torch::Tensor &C,
+        double reg,
+        int numIter);
+
 
 torch::Tensor unbalanced(
         const torch::Tensor &h_s,
@@ -52,6 +59,7 @@ m.def("unbalanced", &unbalanced, "Sinkhorn Unbalanced");
 m.def("stable", &stable, "Stabilized Sinkhorn");
 m.def("unbalanced_stable", &unbalanced_stable, "Stabilized Unbalanced Sinkhorn");
 m.def("base", &base, "Sinkhorn");
+m.def("base_single", &base_single, "Sinkhorn with single cost matrix");
 }
 
 #endif //SINKHORN_H

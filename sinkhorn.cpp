@@ -9,7 +9,7 @@ torch::Tensor base(const torch::Tensor &h_s,
     int N, num_s, num_t;
     N = C.size(0);
     num_s = C.size(1);
-    num_t = C.size(1);
+    num_t = C.size(2);
     ::dev = C.device();
 
     torch::Tensor K = (C / -reg).exp();
@@ -24,6 +24,38 @@ torch::Tensor base(const torch::Tensor &h_s,
     }
 
     return torch::einsum("ni,nij,nj->nij", {u, K, v});
+}
+
+torch::Tensor base_single(const torch::Tensor &h_s,
+                           const torch::Tensor &h_t,
+                           const torch::Tensor &C,
+                           double reg,
+                           int numIter) {
+
+    int N, num_s, num_t;
+    N = h_t.size(0);
+    num_s = C.size(0);
+    num_t = C.size(1);
+    ::dev = C.device();
+
+    torch::Tensor K = (C / -reg).exp();
+
+//    std::cout << "test1" << std::endl ;
+    torch::Tensor Kp = torch::einsum("i,ij->ji",{1. / h_s, K});
+//    std::cout << "test2 Kp: " << Kp.size(0) << " " << Kp.size(1) << std::endl ;
+
+    torch::Tensor u = torch::ones({N, num_s}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
+    torch::Tensor v = torch::ones({N, num_t}, at::device(::dev).dtype(C.scalar_type()).requires_grad(false));
+
+    for (int iter = 0; iter < numIter; ++iter) {
+//        std::cout << "test3 u:" << u.size(0) << u.size(1) << std::endl ;
+        v = h_t / (torch::matmul(u, K));
+//        std::cout << "test4 " << std::endl ;
+        u = 1. / (torch::matmul(v, Kp));
+    }
+
+//    std::cout << "test5" << std::endl ;
+    return torch::einsum("ni,ij,nj->nij", {u, K, v});
 }
 
 torch::Tensor unbalanced(const torch::Tensor &h_s,
