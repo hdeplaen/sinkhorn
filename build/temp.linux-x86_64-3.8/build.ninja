@@ -1,0 +1,20 @@
+ninja_required_version = 1.3
+cxx = c++
+
+cflags = -pthread -B /users/sista/hdeplaen/Volume/System/Anaconda/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/users/sista/hdeplaen/Volume/System/Anaconda/lib/python3.8/site-packages/torch/include -I/users/sista/hdeplaen/Volume/System/Anaconda/lib/python3.8/site-packages/torch/include/torch/csrc/api/include -I/users/sista/hdeplaen/Volume/System/Anaconda/lib/python3.8/site-packages/torch/include/TH -I/users/sista/hdeplaen/Volume/System/Anaconda/lib/python3.8/site-packages/torch/include/THC -I/users/sista/hdeplaen/Volume/System/Anaconda/include/python3.8 -c
+post_cflags = -DTORCH_API_INCLUDE_EXTENSION_H '-DPYBIND11_COMPILER_TYPE="_gcc"' '-DPYBIND11_STDLIB="_libstdcpp"' '-DPYBIND11_BUILD_ABI="_cxxabi1011"' -DTORCH_EXTENSION_NAME=sinkhorn -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++14
+ldflags = 
+
+rule compile
+  command = $cxx -MMD -MF $out.d $cflags -c $in -o $out $post_cflags
+  depfile = $out.d
+  deps = gcc
+
+
+
+build /volume1/scratch/hdeplaen/libtorch/sinkhorn/build/temp.linux-x86_64-3.8/sinkhorn.o: compile /volume1/scratch/hdeplaen/libtorch/sinkhorn/sinkhorn.cpp
+
+
+
+
+

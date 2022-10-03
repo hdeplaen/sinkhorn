@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <limits>
 
+#define EPS 0.00000000001
+
 torch::Device dev = torch::kCPU;
 
 torch::Tensor base(

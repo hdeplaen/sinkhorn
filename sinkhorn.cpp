@@ -19,8 +19,8 @@ torch::Tensor base(const torch::Tensor &h_s,
 
 
     for (int iter = 0; iter < numIter; ++iter) {
-        v = h_t / ((K * u.unsqueeze(2)).sum(1));
-        u = h_s / ((K * v.unsqueeze(1)).sum(2));
+        v = h_t / ((K * u.unsqueeze(2)).sum(1) + EPS);
+        u = h_s / ((K * v.unsqueeze(1)).sum(2) + EPS);
     }
 
     return torch::einsum("ni,nij,nj->nij", {u, K, v});
@@ -140,8 +140,8 @@ torch::Tensor stable(const torch::Tensor &h_s,
 
         _update_K(alpha, beta, C, reg, K);
     }
-    u = h_s / ((K * v.unsqueeze(1)).sum(2));
-    v = h_t / ((K * u.unsqueeze(2)).sum(1));
+    u = h_s / ((K * v.unsqueeze(1)).sum(2) + EPS);
+    v = h_t / ((K * u.unsqueeze(2)).sum(1) + EPS);
     return _get_P(alpha, beta, u, v, C, reg);
 }
 

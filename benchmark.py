@@ -52,11 +52,12 @@ res_mean = torch.mean(results,3)
 res_std = torch.std(results,3)
 
 ## PLOTS
+x = N_exp
 fig, ax = plt.subplots(1)
-ax.plot(N_exp, (res_mean[:,0,0]).squeeze(), label='Our implementation', color='red')
-ax.plot(N_exp, (res_mean[:,0,1]).squeeze(), label='Python Optimal Transport', color='blue')
-ax.fill_between(N_exp, res_mean[:,0,0] + res_std[:,0,0], res_mean[:,0,0] - res_std[:,0,0], facecolor='red', alpha=.3)
-ax.fill_between(N_exp, res_mean[:,0,1] + res_std[:,0,1], res_mean[:,0,1] - res_std[:,0,1], facecolor='blue', alpha=.3)
+ax.plot(x, (res_mean[:,0,0]).squeeze(), label='Our implementation', color='red')
+ax.plot(x, (res_mean[:,0,1]).squeeze(), label='Python Optimal Transport', color='blue')
+ax.fill_between(x, res_mean[:,0,0] + res_std[:,0,0], res_mean[:,0,0] - res_std[:,0,0], facecolor='red', alpha=.3)
+ax.fill_between(x, res_mean[:,0,1] + res_std[:,0,1], res_mean[:,0,1] - res_std[:,0,1], facecolor='blue', alpha=.3)
 ax.legend()
 ax.set_title('Single cost matrix, 1 histogram vs many [CPU]')
 ax.set_xlabel('Histogram size')
